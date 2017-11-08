@@ -3,13 +3,13 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import {white, primary, complimentary, muted, light} from './../utils/colors'
 import { connect } from 'react-redux'
 import { pushDecks } from '../actions'
-import * as api from '../utils/api'
+import {fetchDecks} from '../utils/api'
 import { NavigationActions } from 'react-navigation'
 import Deck from './Deck'
 
 class Home extends Component{
   componentDidMount(){
-    api.fetchDecks().then((result) => this.props.pushDecks(result))
+    fetchDecks().then((result) => this.props.pushDecks(result))
   }
 
   openDeck = () => {
@@ -38,12 +38,12 @@ class Home extends Component{
     }
     else {
       return (
-        <View>
+        <View style={styles.container}>
           <Text style={styles.errorMessage}>
             No Decks could be found.
           </Text>
           <Text style={styles.errorMessageSub}>
-            Please try adding a new one
+            Start building a new deck!
           </Text>
         </View>
       )
@@ -76,15 +76,15 @@ const styles = StyleSheet.create({
     color: complimentary,
   },
   errorMessage: {
-    paddingTop: 25,
-    paddingBottom: 3,
-    fontSize: 21,
-    color: complimentary,
+    paddingTop: 10,
+    fontSize: 24,
     textAlign: 'center',
+    marginTop: 10,
+    color: complimentary,
   },
   errorMessageSub: {
     fontSize: 16,
-    color: complimentary,
+    color: muted,
     textAlign: 'center',
 
   }

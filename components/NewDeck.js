@@ -78,12 +78,14 @@ const styles = StyleSheet.create({
     padding: 5,
     marginTop: 5,
     fontSize: 20,
+    color: complimentary,
   },
   header: {
     paddingTop: 10,
     fontSize: 24,
     textAlign: 'center',
     marginTop: 10,
+    color: complimentary,
   },
   warning: {
     color: warning,
