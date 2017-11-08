@@ -1,5 +1,8 @@
 {
   "expo": {
-    "sdkVersion": "22.0.0"
+    "name": "Flashcards",
+    "slug": "flashcards",
+    "sdkVersion": "22.0.0",
+    "privacy": "public"
   }
 }

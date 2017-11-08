@@ -1,23 +1,38 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { Text, View } from 'react-native';
+import { TabNavigator, StackNavigator } from 'react-navigation'
+import Home from './components/Home'
+import Deck from './components/Deck'
+import NewDeck from './components/NewDeck'
+import { primary, complimentary } from './utils/colors'
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
-    );
-  }
-}
+const Tabs = TabNavigator({
+ Home: {
+   screen: Home,
+   navigationOptions: {
+     tabBarLabel: 'Decks',
+   },
+ },
+ AddEntry: {
+   screen: NewDeck,
+   navigationOptions: {
+     tabBarLabel: 'New Deck',
+   },
+ },
+}, {
+  tabBarOptions: {
+    activeTintColor: complimentary,
+    style: {
+      backgroundColor: primary,
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    }
   },
-});
+})
+
+export default class App extends Component {
+ render() {
+   return (
+     <Tabs />
+   );
+ }
+}
