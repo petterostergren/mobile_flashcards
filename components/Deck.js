@@ -2,28 +2,20 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import {white, muted, black, primary, complimentary, light} from '../utils/colors'
 
-const decks = [
- {title: 'Petter'},
- {title: 'Tuva'}
-]
-
 export default class Deck extends Component {
- render() {
+  render() {
+   const {id, title} = this.props.deck
    return (
      <View style={styles.container}>
-       {decks.map((deck) => {
-         return (
-           <View style={styles.deck} key={deck.title}>
-             <View>
-               <Text style={styles.title}>
-                 {deck.title}
-               </Text>
-             </View>
+         <View style={styles.deck} key={deck.id}>
+           <View>
+             <Text style={styles.title}>
+               {deck.title}
+             </Text>
            </View>
-         )
-       })}
+         </View>
      </View>
-   );
+   )
  }
 }
 
@@ -49,11 +41,5 @@ const styles = StyleSheet.create({
    fontSize: 21,
    paddingLeft: 10,
    color: complimentary,
- },
- subject: {
-   fontSize: 16,
-   color: muted,
-   paddingLeft: 10,
-   paddingBottom: 10,
- },
+ }
 })

@@ -7,6 +7,9 @@ import {
   TouchableOpacity
 } from 'react-native';
 import cuid from 'cuid'
+import { connect } from 'react-redux'
+import { pushDeck } from '../utils/api'
+import { NavigationActions } from 'react-navigation'
 import { primary, complimentary, warning } from '../utils/colors'
 
 class NewDeck extends Component {
@@ -17,6 +20,7 @@ class NewDeck extends Component {
 
   submitNewDeck(){
     const { title, warning } = this.state
+    const { navigation } = this.props
     if(title.length < 3)
       this.setState({warning: 'Please add a more descriptive title'})
     else if(title.length > 30)
@@ -25,23 +29,21 @@ class NewDeck extends Component {
       this.setState({warning: ''})
       let deckId = cuid()
       let newDeck = {
-        title,
+        title: title,
         questions: []
       }
 
       //CALL redux
-      // then clear state
-      this.setState = ({
-        title: '',
-        warning: '',
-      })
-
+      pushDeck({id: deckId, deck: newDeck});
+      this.props.pushDeck({title: deck});
+      this.setState = ({ title: '', warning: '' })
+      this.props.navigation.dispatch(NavigationActions.navigate({routeName: 'Home'}))
 
     }
   }
 
   render(){
-    const { warning } = this.state
+    const { warning, title } = this.state
     return(
       <View style={styles.container}>
         <Text style={styles.header}>Name your deck</Text>
@@ -51,6 +53,7 @@ class NewDeck extends Component {
           maxLength={30}
           style={styles.input}
           onChangeText={(title) => this.setState({title})}
+          value={title}
         />
         <Text style={styles.warning}>{warning}</Text>
         <TouchableOpacity
@@ -103,5 +106,11 @@ const styles = StyleSheet.create({
   }
 })
 
+
+function mapDispatchToProps(dispatch){
+ return {
+   pushDeck: (data) => dispatch(pushDeck(data)),
+ }
+}
 
 export default NewDeck
