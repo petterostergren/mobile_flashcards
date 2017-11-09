@@ -6,8 +6,9 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
-import cuid from 'cuid'
 import { connect } from 'react-redux'
+import {uuidv4} from '../utils/helpers'
+import {pushDeck} from '../actions'
 import * as api from '../utils/api'
 import { NavigationActions } from 'react-navigation'
 import { primary, complimentary, warning } from '../utils/colors'
@@ -16,8 +17,8 @@ class NewDeck extends Component {
   state = {
     title: '',
     warning: '',
-    deckId: '',
   }
+
 
   submitNewDeck(){
     const { title, warning, deckId } = this.state
@@ -29,18 +30,17 @@ class NewDeck extends Component {
       this.setState({warning: 'Its a title not a novell, try narrow it down'})
     }
     else {
-      this.setState({warning: ''})
-      // deckId should be using something like cuid
-      let deckId = '3333'
+      const deckId = uuidv4()
       let newDeck = {
         title: this.state.title,
         questions: []
       }
-      //CALL redux
-      api.pushDeck({id: deckId, deck: newDeck});
 
-      this.setState = ({ title: '', warning: '' })
-      this.props.navigation.dispatch(NavigationActions.navigate({routeName: 'Home'}))
+      api.pushDeck({id: deckId, deck: newDeck})
+        // I think the issue is comming from here.
+        .then(() => this.props.pushDeck({deckId, newDeck}))
+        .then(() => this.setState({ title: '', warning: '' }))
+        .then(() => this.props.navigation.dispatch(NavigationActions.navigate({routeName: 'Home'})))
 
     }
   }
@@ -117,4 +117,4 @@ function mapDispatchToProps(dispatch){
  }
 }
 
-export default connect(mapDispatchToProps)(NewDeck)
+export default connect(null, mapDispatchToProps)(NewDeck)

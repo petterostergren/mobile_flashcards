@@ -18,7 +18,6 @@ class Home extends Component{
 
   render(){
     const { decks } = this.props
-    console.log(decks)
     if(Object.keys(decks).length > 0){
       return (
           <View style={styles.container}>
@@ -30,10 +29,11 @@ class Home extends Component{
                     key={deck}
                   >
                     {/* TODO: Should be spaced out when new is added. */}
-                     <Deck
+                      <Text>{decks[deck].title}</Text>
+                     {/* <Deck
                        title={decks[deck].title}
                        id={decks[deck].id}
-                     />
+                     /> */}
                   </TouchableOpacity>
               )
             })}
@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state){
+  console.log(state)
   return {
     decks: state
   }
