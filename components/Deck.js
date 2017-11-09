@@ -4,13 +4,13 @@ import {white, muted, black, primary, complimentary, light} from '../utils/color
 
 export default class Deck extends Component {
   render() {
-   const {id, title} = this.props.deck
+   const {id, title} = this.props
    return (
      <View style={styles.container}>
-         <View style={styles.deck} key={deck.id}>
+         <View style={styles.deck} key={id}>
            <View>
              <Text style={styles.title}>
-               {deck.title}
+               {title}
              </Text>
            </View>
          </View>
