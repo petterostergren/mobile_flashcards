@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Platform } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Platform, AlertIOS } from 'react-native';
 import { connect } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons'
 import { deleteDeck } from '../actions'
@@ -56,14 +56,30 @@ class DeckQuestion extends Component{
   deleteDeck = () => {
     // TODO: Issue accure here when trashcan is pressed
     const {id} = this.props
-    removeDeck(id)
-    .then(() =>  this.props.deleteDeck(id))
-    .then(() =>  this.props.navigation.dispatch(NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({ routeName: 'Home'})
-        ]
-      })))
+    let executeRemoval = true
+    console.log(Platform.OS === 'ios')
+    if (Platform.OS === 'ios') {
+      AlertIOS.alert(
+        'Are you sure you want do delete this deck?',
+        // [
+        //   {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        //   {text: 'Yes', onPress: () => console.log('Yes Pressed')},
+        // ],
+      )
+    } else (
+      console.log('Alert was not shown')
+    )
+    {executeRemoval &&
+      removeDeck(id)
+      .then(() =>  this.props.deleteDeck(id))
+      .then(() =>  this.props.navigation.dispatch(NavigationActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({ routeName: 'Home'})
+          ]
+        })))
+      }
+
     }
 
   render() {
