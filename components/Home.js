@@ -8,7 +8,11 @@ import { NavigationActions } from 'react-navigation'
 import Deck from './Deck'
 
 
-class Home extends Component{
+class Home extends Component {
+  static navigationOptions = {
+    header: null
+  }
+
   componentDidMount(){
     fetchDecks().then((result) => this.props.pushDecks(result))
   }
@@ -28,6 +32,7 @@ class Home extends Component{
     if(Object.keys(decks).length > 0) {
       return (
           <View style={styles.container}>
+            <Text style={styles.header}>Select a Deck</Text>
             {Object.keys(decks).map((deck) => {
               const deckId = (deck)
               const deckTitle = (decks[deck].title)
@@ -67,18 +72,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: primary,
-    padding: 15,
+    padding: 8,
+  },
+  header: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    fontSize: 24,
+    textAlign: 'center',
+    marginTop: 10,
+    color: complimentary,
   },
   deckView: {
     flex: 1,
     marginTop: 17,
   },
-  deckContainer: {
-    flex: 1,
-    marginTop: 17,
-  },
   deckBtn: {
-    marginBottom: 67,
+    marginTop: 5,
+    padding: 5,
+    marginBottom: 55,
   },
   errorMessage: {
     paddingTop: 10,

@@ -31,7 +31,7 @@ function trashIcon ({params}) {
   }
 }
 
-class DeckQuestions extends Component{
+class DeckQuestion extends Component{
   static navigationOptions = ({navigation}) => {
     const {params} = navigation.state
     const { title } = params
@@ -58,8 +58,11 @@ class DeckQuestions extends Component{
     const {id} = this.props
     removeDeck(id)
     .then(() =>  this.props.deleteDeck(id))
-    .then(() =>  this.props.navigation.dispatch(NavigationActions.navigate({
-        routeName: 'Home',
+    .then(() =>  this.props.navigation.dispatch(NavigationActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({ routeName: 'Home'})
+        ]
       })))
     }
 
@@ -158,7 +161,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state, ownProps){
   const deckId = ownProps.navigation.state.params.id
-  if(deckId){
+  if(deckId && state[deckId]){
     return{
       id: deckId,
       title: state[deckId].title,
@@ -179,4 +182,4 @@ function mapDispatchToProps(dispatch){
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeckQuestions);
+export default connect(mapStateToProps, mapDispatchToProps)(DeckQuestion);

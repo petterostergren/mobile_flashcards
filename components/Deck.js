@@ -22,14 +22,11 @@ export default class Deck extends Component {
 const styles = StyleSheet.create({
  container: {
    flex: 1,
-   //marginTop: 17,
  },
  deck: {
-  marginBottom: 50,
-  padding: 2.25,
   height: 57,
-  borderTopWidth: 4,
-  borderTopColor: complimentary,
+  borderLeftWidth: 4,
+  borderLeftColor: complimentary,
   shadowOpacity: 0.75,
   shadowRadius: 1,
   shadowColor: muted,
@@ -37,9 +34,9 @@ const styles = StyleSheet.create({
   backgroundColor: light,
 },
  title: {
-   paddingTop: 5,
+   padding: 15,
    fontSize: 21,
-   paddingLeft: 10,
+   justifyContent: 'center',
    color: complimentary,
  }
 })

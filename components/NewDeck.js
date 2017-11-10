@@ -11,9 +11,13 @@ import {uuidv4} from '../utils/helpers'
 import {pushDeck} from '../actions'
 import * as api from '../utils/api'
 import { NavigationActions } from 'react-navigation'
-import { primary, complimentary, warning } from '../utils/colors'
+import { primary, complimentary, warning, muted } from '../utils/colors'
 
 class NewDeck extends Component {
+  static navigationOptions = {
+    header: null
+  }
+
   state = {
     title: '',
     warning: '',
@@ -49,21 +53,23 @@ class NewDeck extends Component {
     const { warning, title } = this.state
     return(
       <View style={styles.container}>
-        <Text style={styles.header}>Name your deck</Text>
-        <TextInput
-          placeholder='Title'
-          maxLength={30}
-          style={styles.input}
-          onChangeText={(title) => this.setState({title})}
-          value={title}
-        />
-        <Text style={styles.warning}>{warning}</Text>
-        <TouchableOpacity
-          onPress={() => this.submitNewDeck()}
-          style={styles.btn}
-          activeOpacity={0.8}>
-            <Text style={styles.btnText}>Create</Text>
-        </TouchableOpacity>
+        <View style={styles.content}>
+          <Text style={styles.header}>Name your deck</Text>
+          <TextInput
+            placeholder='Title'
+            maxLength={30}
+            style={styles.input}
+            onChangeText={(title) => this.setState({title})}
+            value={title}
+          />
+          <Text style={styles.warning}>{warning}</Text>
+          <TouchableOpacity
+            onPress={() => this.submitNewDeck()}
+            style={styles.btn}
+            activeOpacity={0.8}>
+              <Text style={styles.btnText}>Create</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -73,13 +79,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: primary,
-    padding: 15,
+  },
+  content: {
+    margin: 8,
   },
   input: {
     height: 40,
     padding: 5,
-    marginTop: 5,
+    margin: 5,
+    marginTop: 15,
     fontSize: 20,
+    borderBottomWidth: .5,
+    borderRadius:8,
+    borderColor: muted,
     color: complimentary,
   },
   header: {
