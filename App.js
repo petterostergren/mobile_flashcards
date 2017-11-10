@@ -48,7 +48,7 @@ const Stack = StackNavigator({
   },
   DeckQuestion: {
     screen: DeckQuestion,
-  }
+  },
 })
 
 export default class App extends Component {

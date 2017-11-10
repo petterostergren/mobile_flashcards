@@ -13,8 +13,11 @@ class Home extends Component{
     fetchDecks().then((result) => this.props.pushDecks(result))
   }
 
-  openDeck = () => {
-    this.props.navigation.dispatch(NavigationActions.navigate({routeName: 'DeckQuestion'}))
+  openDeck(deckId) {
+    this.props.navigation.dispatch(NavigationActions.navigate({
+      routeName: 'DeckQuestion',
+      params: { id: deckId }
+    }))
   }
 
   render(){
@@ -23,10 +26,10 @@ class Home extends Component{
       return (
           <View style={styles.container}>
             {Object.keys(decks).map((deck) => {
-
+              const deckId = (deck)
               return (
                   <TouchableOpacity
-                    onPress={this.openDeck}
+                    onPress={() => this.openDeck(deckId)}
                     activeOpacity={0.8}
                     key={deck}
                     style={styles.deckBtn}
