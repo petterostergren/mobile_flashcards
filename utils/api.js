@@ -19,8 +19,14 @@ export function pushDeck({id, deck}) {
   }))
 }
 
-export function removeDeck(deckId) {
-
+export function removeDeck (deckId) {
+  return AsyncStorage.getItem(STORAGE_KEY)
+    .then((results) => {
+      const data = JSON.parse(results)
+      data[deckId] = undefined
+      delete data[deckId]
+      AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+    })
 }
 
 export function pushCard(card, deckId) {

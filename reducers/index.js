@@ -18,7 +18,9 @@ export default function cardsReducer(state = {}, action) {
 
 
     case DELETE_DECK:
-      return state
+      const newState = state
+      delete state[action.id]
+      return newState
 
     default:
       return state

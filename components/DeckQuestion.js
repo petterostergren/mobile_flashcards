@@ -1,13 +1,67 @@
 import React, {Component} from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Platform } from 'react-native';
 import { connect } from 'react-redux'
+import { Ionicons } from '@expo/vector-icons'
+import { deleteDeck } from '../actions'
+import { removeDeck } from '../utils/api'
 import {primary, complimentary, muted} from '../utils/colors'
+import { NavigationActions } from 'react-navigation'
+
+function trashIcon ({params}) {
+  if (Platform.OS === 'ios') {
+    return (
+      <Ionicons
+        style={styles.iconTrash}
+        name='ios-trash-outline'
+        size={30}
+        color={muted}
+        onPress={(data) => params.deleteDeck()}
+      />
+    )
+  } else {
+      return (
+        <Ionicons
+          style={styles.iconTrash}
+          name='md-trash-outline'
+          size={30}
+          color={muted}
+          onPress={(data) => params.deleteDeck()}
+        />
+      )
+  }
+}
 
 class DeckQuestions extends Component{
+  static navigationOptions = ({navigation}) => {
+    const {params} = navigation.state
+    const { title } = params
+    return {
+      headerRight: (
+        trashIcon({params})
+      ),
+      title: title,
+      headerStyle:{
+        backgroundColor: primary,
+      },
+    }
+  }
 
   componentDidMount(){
-    console.log(this.props)
+    // deleteFunction is sent in as a navigation param
+    // inorder to use it from our navigationBar
+    const {setParams} = this.props.navigation
+    setParams({deleteDeck: this.deleteDeck})
   }
+
+  deleteDeck = () => {
+    // TODO: Issue accure here when trashcan is pressed
+    const {id} = this.props
+    removeDeck(id)
+    .then(() =>  this.props.deleteDeck(id))
+    .then(() =>  this.props.navigation.dispatch(NavigationActions.navigate({
+        routeName: 'Home',
+      })))
+    }
 
   render() {
     if(this.props.id !== null) {
@@ -73,6 +127,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
 
   },
+  iconTrash: {
+    marginRight: 10,
+  },
   title: {
     paddingTop: 5,
     fontSize: 21,
@@ -116,4 +173,10 @@ function mapStateToProps(state, ownProps){
 }
 
 
-export default connect(mapStateToProps)(DeckQuestions);
+function mapDispatchToProps(dispatch){
+  return {
+    deleteDeck: (data) => dispatch(deleteDeck(data)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeckQuestions);
