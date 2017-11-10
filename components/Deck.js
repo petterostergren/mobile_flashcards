@@ -22,10 +22,10 @@ export default class Deck extends Component {
 const styles = StyleSheet.create({
  container: {
    flex: 1,
-   marginTop: 17,
+   //marginTop: 17,
  },
  deck: {
-  marginTop: 12,
+  marginBottom: 50,
   padding: 2.25,
   height: 57,
   borderTopWidth: 4,

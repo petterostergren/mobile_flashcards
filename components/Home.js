@@ -7,6 +7,7 @@ import {fetchDecks} from '../utils/api'
 import { NavigationActions } from 'react-navigation'
 import Deck from './Deck'
 
+
 class Home extends Component{
   componentDidMount(){
     fetchDecks().then((result) => this.props.pushDecks(result))
@@ -18,22 +19,22 @@ class Home extends Component{
 
   render(){
     const { decks } = this.props
-    if(Object.keys(decks).length > 0){
+    if(Object.keys(decks).length > 0) {
       return (
           <View style={styles.container}>
             {Object.keys(decks).map((deck) => {
+
               return (
                   <TouchableOpacity
                     onPress={this.openDeck}
                     activeOpacity={0.8}
                     key={deck}
+                    style={styles.deckBtn}
                   >
-                    {/* TODO: Should be spaced out when new is added. */}
-                      <Text>{decks[deck].title}</Text>
-                     {/* <Deck
+                     <Deck
                        title={decks[deck].title}
                        id={decks[deck].id}
-                     /> */}
+                     />
                   </TouchableOpacity>
               )
             })}
@@ -61,8 +62,16 @@ const styles = StyleSheet.create({
     backgroundColor: primary,
     padding: 15,
   },
+  deckView: {
+    flex: 1,
+    marginTop: 17,
+  },
+  deckContainer: {
+    flex: 1,
+    marginTop: 17,
+  },
   deckBtn: {
-    padding: 5,
+    marginBottom: 67,
   },
   errorMessage: {
     paddingTop: 10,
@@ -81,7 +90,6 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state){
-  console.log(state)
   return {
     decks: state
   }
