@@ -10,6 +10,7 @@ import Deck from './components/Deck'
 import NewDeck from './components/NewDeck'
 import DeckQuestion from './components/DeckQuestion'
 import Quiz from './components/Quiz'
+import NewCard from './components/NewCard'
 import { primary, complimentary } from './utils/colors'
 
 function FlashCardsStatusBar ({backgroundColor, ...props}) {
@@ -52,6 +53,12 @@ const Stack = StackNavigator({
   },
   Quiz: {
     screen: Quiz,
+    navigationOptions: {
+      headerTintColor: complimentary,
+    }
+  },
+  NewCard: {
+    screen: NewCard,
     navigationOptions: {
       headerTintColor: complimentary,
     }

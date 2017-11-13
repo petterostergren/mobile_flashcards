@@ -46,18 +46,27 @@ class DeckQuestion extends Component{
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     // deleteFunction is sent in as a navigation param
     // inorder to use it from our navigationBar
     const {setParams} = this.props.navigation
     setParams({deleteDeck: this.deleteDeck})
   }
 
-  startQuiz(id, title){
+  startQuiz(id, title) {
     this.props.navigation.dispatch(NavigationActions.navigate({
       routeName: 'Quiz',
       params: {
         id: id,
+      }
+    }))
+  }
+
+  newCard(id) {
+    this.props.navigation.dispatch(NavigationActions.navigate({
+      routeName: 'NewCard',
+      params: {
+        id: id
       }
     }))
   }
@@ -122,7 +131,7 @@ class DeckQuestion extends Component{
             </View>
             <View style={styles.btn}>
               <TouchableOpacity
-                onPress={() => console.log('button')}
+                onPress={() => this.newCard(this.props.id)}
                 activeOpacity={0.8}
               >
                 <View>
@@ -149,7 +158,7 @@ class DeckQuestion extends Component{
             <View style={styles.btnBox}>
               <View style={styles.btn}>
                 <TouchableOpacity
-                  onPress={() => console.log('button')}
+                  onPress={() => this.newCard(this.props.id)}
                   activeOpacity={0.8}
                 >
                   <View>
@@ -239,6 +248,7 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state, ownProps){
+  console.log('DeckQuestion', state)
   const deckId = ownProps.navigation.state.params.id
   if(deckId && state[deckId]){
     return{

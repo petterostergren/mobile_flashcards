@@ -29,7 +29,19 @@ export function removeDeck (deckId) {
     })
 }
 
-export function pushCard(card, deckId) {
+export function pushCard(deckId, card) {
+  console.log(deckId, card)
+  return AsyncStorage.getItem(STORAGE_KEY)
+    .then((results) => {
+      const data = JSON.parse(results)
+      // gets current questions
+      let question = data[deckId].questions
+      // push the new card into questions array
+      question.push(card)
+      data[deckId].questions = question
+      // updates AsyncStorage
+      AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+    })
 
 }
 

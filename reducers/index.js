@@ -1,4 +1,4 @@
-import { PUSH_ALL_DECKS, PUSH_DECK, DELETE_DECK } from '../actions'
+import { PUSH_ALL_DECKS, PUSH_DECK, DELETE_DECK, PUSH_CARD } from '../actions'
 
 export default function cardsReducer(state = {}, action) {
   console.log('reducers____State', state)
@@ -15,6 +15,11 @@ export default function cardsReducer(state = {}, action) {
         ...state,
         [action.deck.deckId]: action.deck.newDeck
       }
+    case PUSH_CARD:
+      return {
+        state,
+        [action.payload.id]: [...state[action.payload.id].questions], action.payload.card]
+        }
 
 
     case DELETE_DECK:

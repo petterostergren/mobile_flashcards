@@ -41,7 +41,6 @@ class NewDeck extends Component {
       }
 
       api.pushDeck({id: deckId, deck: newDeck})
-        // I think the issue is comming from here.
         .then(() => this.props.pushDeck({deckId, newDeck}))
         .then(() => this.setState({ title: '', warning: '' }))
         .then(() => this.props.navigation.dispatch(NavigationActions.navigate({routeName: 'Home'})))
