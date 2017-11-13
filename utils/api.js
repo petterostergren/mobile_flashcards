@@ -30,7 +30,6 @@ export function removeDeck (deckId) {
 }
 
 export function pushCard(deckId, card) {
-  console.log(deckId, card)
   return AsyncStorage.getItem(STORAGE_KEY)
     .then((results) => {
       const data = JSON.parse(results)

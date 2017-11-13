@@ -36,7 +36,7 @@ class NewCard extends Component{
           warning: ' '
         }))
         .then(() => this.props.navigation.dispatch(NavigationActions.navigate({
-          routeName: 'DeckQuestions',
+          routeName: 'DeckQuestion',
           params: {
             id: this.props.id
           }

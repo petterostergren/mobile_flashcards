@@ -15,11 +15,17 @@ export default function cardsReducer(state = {}, action) {
         ...state,
         [action.deck.deckId]: action.deck.newDeck
       }
-    case PUSH_CARD:
-      return {
-        state,
-        [action.payload.id]: [...state[action.payload.id].questions], action.payload.card]
-        }
+      case PUSH_CARD:
+    return {
+      ...state,
+      [action.payload.id]: {
+        ...state[action.payload.id],
+        questions: [
+          ...state[action.payload.id].questions,
+          action.payload.card,
+        ],
+      },
+    };
 
 
     case DELETE_DECK:

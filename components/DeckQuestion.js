@@ -125,7 +125,7 @@ class DeckQuestion extends Component{
                 activeOpacity={0.8}
               >
                 <View>
-                  <Text style={styles.btnText}>Start the Quiz</Text>
+                  <Text style={styles.btnText}>Start</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -248,7 +248,6 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state, ownProps){
-  console.log('DeckQuestion', state)
   const deckId = ownProps.navigation.state.params.id
   if(deckId && state[deckId]){
     return{
