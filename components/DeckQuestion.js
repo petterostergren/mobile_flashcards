@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Platform, AlertIOS } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Platform, AlertIOS, Alert } from 'react-native';
 import { connect } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons'
 import { deleteDeck } from '../actions'
 import { removeDeck } from '../utils/api'
-import {primary, complimentary, muted} from '../utils/colors'
+import {primary, complimentary, muted, light} from '../utils/colors'
 import { NavigationActions } from 'react-navigation'
 
 function trashIcon ({params}) {
@@ -53,22 +53,40 @@ class DeckQuestion extends Component{
     setParams({deleteDeck: this.deleteDeck})
   }
 
+  startQuiz(id, title){
+    this.props.navigation.dispatch(NavigationActions.navigate({
+      routeName: 'Quiz',
+      params: {
+        id: id,
+      }
+    }))
+  }
+
   deleteDeck = () => {
-    // TODO: Issue accure here when trashcan is pressed
     const {id} = this.props
-    let executeRemoval = true
-    console.log(Platform.OS === 'ios')
+    let executeRemoval = false
     if (Platform.OS === 'ios') {
       AlertIOS.alert(
-        'Are you sure you want do delete this deck?',
-        // [
-        //   {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        //   {text: 'Yes', onPress: () => console.log('Yes Pressed')},
-        // ],
+        'Remove Deck',
+        'Are you sure you want to delete this deck?',
+        [
+          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          {text: 'Yes', onPress: () =>  executeRemoval = true},
+        ],
       )
-    } else (
-      console.log('Alert was not shown')
-    )
+    } else {
+      Alert.alert(
+        'Remove Deck',
+        'Are you sure you want to delete this deck?',
+        [
+          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          {text: 'Yes', onPress: () => console.log('Yes Pressed')},
+        ],
+        { cancelable: false }
+      )
+    }
+
+
     {executeRemoval &&
       removeDeck(id)
       .then(() =>  this.props.deleteDeck(id))
@@ -83,11 +101,35 @@ class DeckQuestion extends Component{
     }
 
   render() {
-    if(this.props.id !== null) {
+    if(this.props.id !== null && this.props.questions.length !== 0) {
       return (
         <View style={styles.container}>
-          <View style={styles.top}>
-            <Text style={styles.title}>{this.props.title}</Text>
+          <View style={styles.mainContent}>
+            <View style={styles.deck}>
+              <Text style={styles.title}>{this.props.title}</Text>
+            </View>
+          </View>
+          <View style={styles.btnBox}>
+            <View style={styles.btn}>
+              <TouchableOpacity
+                onPress={() => this.startQuiz(this.props.id)}
+                activeOpacity={0.8}
+              >
+                <View>
+                  <Text style={styles.btnText}>Start the Quiz</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.btn}>
+              <TouchableOpacity
+                onPress={() => console.log('button')}
+                activeOpacity={0.8}
+              >
+                <View>
+                  <Text style={styles.btnText}>Add Cards</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
         )
@@ -95,12 +137,14 @@ class DeckQuestion extends Component{
         return (
           <View style={styles.container}>
             <View style={styles.errorBox}>
-              <Text style={styles.errorMessage}>
-                We couldn't find any cards for this deck
-              </Text>
-              <Text style={styles.errorMessageSub}>
-                Go ahead and an add a few cards!
-              </Text>
+              <View style={styles.deck}>
+                <Text style={styles.errorMessage}>
+                  We couldn't find any cards for this deck
+                </Text>
+                <Text style={styles.errorMessageSub}>
+                  Go ahead and an add a few cards!
+                </Text>
+              </View>
             </View>
             <View style={styles.btnBox}>
               <View style={styles.btn}>
@@ -120,16 +164,20 @@ class DeckQuestion extends Component{
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
+    paddingBottom: 0,
     backgroundColor: primary,
+  },
+  mainContent: {
+    height: '40%',
   },
   errorBox: {
     justifyContent: 'center',
     alignItems: 'center',
+    height: '35%',
   },
   errorMessage: {
     paddingTop: 10,
@@ -151,16 +199,31 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingTop: 5,
-    fontSize: 21,
+    fontSize: 36,
     paddingLeft: 10,
     color: complimentary,
   },
-  btnBox: {
+  deck: {
     justifyContent: 'center',
+    alignItems: 'center',
+    height: '95%',
+    borderLeftWidth: 4,
+    borderLeftColor: complimentary,
+    marginBottom: 4,
+    shadowOpacity: 0.75,
+    shadowRadius: 1,
+    shadowColor: muted,
+    shadowOffset: { height: 2, width: 1},
+    backgroundColor: light,
+  },
+  btnBox: {
+    justifyContent: 'flex-end',
+    width: '100%',
+    height: '50%',
+    marginBottom: 0,
   },
   btn: {
     marginTop: 20,
-    margin: 5,
     borderRadius:8,
     borderWidth: 2,
     borderColor: complimentary,

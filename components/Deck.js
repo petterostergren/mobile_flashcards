@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 },
  title: {
    padding: 15,
-   fontSize: 21,
+   fontSize: 18,
    justifyContent: 'center',
    color: complimentary,
  }

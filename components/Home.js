@@ -32,24 +32,26 @@ class Home extends Component {
     if(Object.keys(decks).length > 0) {
       return (
           <View style={styles.container}>
-            <Text style={styles.header}>Select a Deck</Text>
-            {Object.keys(decks).map((deck) => {
-              const deckId = (deck)
-              const deckTitle = (decks[deck].title)
-              return (
-                  <TouchableOpacity
-                    onPress={() => this.openDeck(deckId, deckTitle)}
-                    activeOpacity={0.8}
-                    key={deck}
-                    style={styles.deckBtn}
-                  >
-                     <Deck
-                       title={decks[deck].title}
-                       id={decks[deck].id}
-                     />
-                  </TouchableOpacity>
-              )
-            })}
+            <View style={styles.content}>
+              <Text style={styles.header}>Select a Deck</Text>
+              {Object.keys(decks).map((deck) => {
+                const deckId = (deck)
+                const deckTitle = (decks[deck].title)
+                return (
+                    <TouchableOpacity
+                      onPress={() => this.openDeck(deckId, deckTitle)}
+                      activeOpacity={0.8}
+                      key={deck}
+                      style={styles.deckBtn}
+                    >
+                       <Deck
+                         title={decks[deck].title}
+                         id={decks[deck].id}
+                       />
+                    </TouchableOpacity>
+                )
+              })}
+            </View>
           </View>
       )
     }
@@ -72,7 +74,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: primary,
-    padding: 8,
+  },
+  content: {
+    margin: 8,
   },
   header: {
     paddingTop: 10,
@@ -108,7 +112,6 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state){
-  console.log('mapStateToProps-home: ', state)
   return {
     decks: state
   }
