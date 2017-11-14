@@ -87,7 +87,7 @@ class Quiz extends Component{
         <View style={styles.container}>
           <Text style={styles.header}>Congratulation!</Text>
           <Text style={styles.subHeader}>You finished it with</Text>
-          <Text style={styles.score}>{correct / question * 100}%</Text>
+          <Text style={styles.score}>{Math.round(correct / question * 100)}%</Text>
           <Text style={styles.subHeader}>of the questions correct</Text>
 
           <TouchableOpacity
