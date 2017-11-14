@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
 import {white, primary, complimentary, muted, light} from './../utils/colors'
 import { connect } from 'react-redux'
 import { pushDecks } from '../actions'
@@ -28,46 +28,59 @@ class Home extends Component {
   }
 
   render(){
+    //   console.log(decks)
+    //   if(Object.keys(decks).length > 0) {
+    //     return (
+    //         <View style={styles.container}>
+    //           <View style={styles.content}>
+    //             <Text style={styles.header}>Select a Deck</Text>
+    //             {Object.keys(decks).map((deck) => {
+    //               const deckId = (deck)
+    //               const deckTitle = (decks[deck].title)
+    //               return (
+    //                   <TouchableOpacity
+    //                     onPress={() => this.openDeck(deckId, deckTitle)}
+    //                     activeOpacity={0.8}
+    //                     key={deck}
+    //                     style={styles.deckBtn}
+    //                   >
+    //                      <Deck
+    //                        title={decks[deck].title}
+    //                        id={decks[deck].id}
+    //                        questions={decks[deck].questions}
+    //                      />
+    //                   </TouchableOpacity>
+    //               )
+    //             })}
+    //           </View>
+    //         </View>
+    //     )
+    //   }
+    //   else {
+    //     return (
+    //       <View style={styles.container}>
+    //         <Text style={styles.errorMessage}>
+    //           No Decks could be found.
+    //         </Text>
+    //         <Text style={styles.errorMessageSub}>
+    //           Start building a new deck!
+    //         </Text>
+    //       </View>
+    //     )
+    //   }
+    // }
+    
     const { decks } = this.props
-    if(Object.keys(decks).length > 0) {
-      return (
-          <View style={styles.container}>
-            <View style={styles.content}>
-              <Text style={styles.header}>Select a Deck</Text>
-              {Object.keys(decks).map((deck) => {
-                const deckId = (deck)
-                const deckTitle = (decks[deck].title)
-                return (
-                    <TouchableOpacity
-                      onPress={() => this.openDeck(deckId, deckTitle)}
-                      activeOpacity={0.8}
-                      key={deck}
-                      style={styles.deckBtn}
-                    >
-                       <Deck
-                         title={decks[deck].title}
-                         id={decks[deck].id}
-                         questions={decks[deck].questions}
-                       />
-                    </TouchableOpacity>
-                )
-              })}
-            </View>
-          </View>
-      )
-    }
-    else {
-      return (
-        <View style={styles.container}>
-          <Text style={styles.errorMessage}>
-            No Decks could be found.
-          </Text>
-          <Text style={styles.errorMessageSub}>
-            Start building a new deck!
-          </Text>
-        </View>
-      )
-    }
+    alert(JSON.stringify(Object.values(decks).map(deck => deck)))
+    return(
+      <View>
+        <FlatList
+              data={Object.values(decks).map(deck => deck)}
+              keyExtractor={(item) => item.title}
+              renderItem={(item) => <Text>{item.title}</Text>}
+        />
+      </View>
+    )
   }
 }
 
