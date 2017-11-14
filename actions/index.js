@@ -4,14 +4,14 @@ export const DELETE_DECK = 'DELETE_DECK'
 export const PUSH_CARD = 'PUSH_CARD'
 
 export function pushDecks(decks) {
-  return{
+  return {
     type: PUSH_ALL_DECKS,
     decks,
   }
 }
 
 export function pushDeck(deck) {
-  return{
+  return {
     type: PUSH_DECK,
     deck,
   }
@@ -27,6 +27,6 @@ export function deleteDeck(id) {
 export function pushCard(payload) {
   return {
     type: PUSH_CARD,
-    payload
+    payload,
   }
 }

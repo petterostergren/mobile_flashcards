@@ -1,56 +1,63 @@
-import React, {Component} from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
-import {white, primary, complimentary, muted, light} from './../utils/colors'
+import React, { Component } from 'react'
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native'
+import { white, primary, complimentary, muted, light } from './../utils/colors'
 import { connect } from 'react-redux'
 import { pushDecks } from '../actions'
-import {fetchDecks} from '../utils/api'
+import { fetchDecks } from '../utils/api'
 import { NavigationActions } from 'react-navigation'
 import Deck from './Deck'
 
-
 class Home extends Component {
   static navigationOptions = {
-    header: null
+    header: null,
   }
 
-  componentDidMount(){
-    fetchDecks().then((result) => this.props.pushDecks(result))
+  componentDidMount() {
+    fetchDecks().then(result => this.props.pushDecks(result))
   }
 
   openDeck(deckId, deckTitle) {
-    this.props.navigation.dispatch(NavigationActions.navigate({
-      routeName: 'DeckQuestion',
-      params: {
-        id: deckId,
-        title: deckTitle,
-       }
-    }))
+    this.props.navigation.dispatch(
+      NavigationActions.navigate({
+        routeName: 'DeckQuestion',
+        params: {
+          id: deckId,
+          title: deckTitle,
+        },
+      })
+    )
   }
 
-  render(){
+  render() {
     const { decks } = this.props
-    if(Object.keys(decks).length > 0) {
-      return(
+    if (Object.keys(decks).length > 0) {
+      return (
         <View style={styles.container}>
           <View style={styles.content}>
             <Text style={styles.header}>Select a Deck</Text>
             <FlatList
-                  data={Object.keys(decks).map(deck => decks[deck])}
-                  keyExtractor={(item) => item.id}
-                  renderItem={({item}) => (
-                    <TouchableOpacity
-                      onPress={() => this.openDeck(item.id, item.title)}
-                      activeOpacity={0.8}
-                      key={item.id}
-                      style={styles.deckBtn}
-                    >
-                      <Deck
-                       title={item.title}
-                       id={item.id}
-                       questions={item.questions}
-                     />
-                   </TouchableOpacity>
-                  )}
+              data={Object.keys(decks).map(deck => decks[deck])}
+              keyExtractor={item => item.id}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() => this.openDeck(item.id, item.title)}
+                  activeOpacity={0.8}
+                  key={item.id}
+                  style={styles.deckBtn}
+                >
+                  <Deck
+                    title={item.title}
+                    id={item.id}
+                    questions={item.questions}
+                  />
+                </TouchableOpacity>
+              )}
             />
           </View>
         </View>
@@ -58,12 +65,8 @@ class Home extends Component {
     } else {
       return (
         <View style={styles.container}>
-          <Text style={styles.errorMessage}>
-            No Decks could be found.
-          </Text>
-          <Text style={styles.errorMessageSub}>
-            Start building a new deck!
-          </Text>
+          <Text style={styles.errorMessage}>No Decks could be found.</Text>
+          <Text style={styles.errorMessageSub}>Start building a new deck!</Text>
         </View>
       )
     }
@@ -105,20 +108,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: muted,
     textAlign: 'center',
-
-  }
+  },
 })
 
-
-function mapStateToProps(state){
+function mapStateToProps(state) {
   return {
-    decks: state
+    decks: state,
   }
 }
 
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch) {
   return {
-    pushDecks: (data) => dispatch(pushDecks(data)),
+    pushDecks: data => dispatch(pushDecks(data)),
   }
 }
 

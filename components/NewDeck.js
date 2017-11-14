@@ -4,18 +4,18 @@ import {
   Text,
   TextInput,
   View,
-  TouchableOpacity
-} from 'react-native';
+  TouchableOpacity,
+} from 'react-native'
 import { connect } from 'react-redux'
-import {uuidv4} from '../utils/helpers'
-import {pushDeck} from '../actions'
+import { uuidv4 } from '../utils/helpers'
+import { pushDeck } from '../actions'
 import * as api from '../utils/api'
 import { NavigationActions } from 'react-navigation'
 import { primary, complimentary, warning, muted } from '../utils/colors'
 
 class NewDeck extends Component {
   static navigationOptions = {
-    header: null
+    header: null,
   }
 
   state = {
@@ -23,51 +23,53 @@ class NewDeck extends Component {
     warning: '',
   }
 
-
-  submitNewDeck(){
+  submitNewDeck() {
     const { title, warning, deckId } = this.state
     const { navigation } = this.props
-    if(title.length < 3){
-      this.setState({warning: 'Please add a more descriptive title'})
-    }
-    else if(title.length > 30) {
-      this.setState({warning: 'Its a title not a novell, try narrow it down'})
-    }
-    else {
+    if (title.length < 3) {
+      this.setState({ warning: 'Please add a more descriptive title' })
+    } else if (title.length > 30) {
+      this.setState({ warning: 'Its a title not a novell, try narrow it down' })
+    } else {
       const deckId = uuidv4()
       let newDeck = {
         title: this.state.title,
         questions: [],
-        id: deckId
+        id: deckId,
       }
 
-      api.pushDeck({id: deckId, deck: newDeck})
-        .then(() => this.props.pushDeck({deckId, newDeck}))
+      api
+        .pushDeck({ id: deckId, deck: newDeck })
+        .then(() => this.props.pushDeck({ deckId, newDeck }))
         .then(() => this.setState({ title: '', warning: '' }))
-        .then(() => this.props.navigation.dispatch(NavigationActions.navigate({routeName: 'Home'})))
-
+        .then(() =>
+          this.props.navigation.dispatch(
+            NavigationActions.navigate({ routeName: 'Home' })
+          )
+        )
     }
   }
 
-  render(){
+  render() {
     const { warning, title } = this.state
-    return(
+    return (
       <View style={styles.container}>
         <View style={styles.content}>
           <Text style={styles.header}>Name your deck</Text>
           <TextInput
-            placeholder='Title'
+            placeholder="Title"
             maxLength={30}
             style={styles.input}
-            onChangeText={(title) => this.setState({title})}
+            onChangeText={title => this.setState({ title })}
             value={title}
           />
           <Text style={styles.warning}>{warning}</Text>
           <TouchableOpacity
             onPress={() => this.submitNewDeck()}
             style={styles.btn}
-            activeOpacity={0.8}>
-              <Text style={styles.btnText}>Create</Text>
+            activeOpacity={0.8}
+          >
+            <Text style={styles.btnText}>Create</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -89,8 +91,8 @@ const styles = StyleSheet.create({
     margin: 5,
     marginTop: 15,
     fontSize: 20,
-    borderBottomWidth: .5,
-    borderRadius:8,
+    borderBottomWidth: 0.5,
+    borderRadius: 8,
     borderColor: muted,
     color: complimentary,
   },
@@ -108,7 +110,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     margin: 5,
-    borderRadius:8,
+    borderRadius: 8,
     borderWidth: 2,
     borderColor: complimentary,
     backgroundColor: complimentary,
@@ -119,14 +121,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     paddingTop: 5,
     paddingBottom: 5,
-  }
+  },
 })
 
-
-function mapDispatchToProps(dispatch){
- return {
-   pushDeck: (data) => dispatch(pushDeck(data)),
- }
+function mapDispatchToProps(dispatch) {
+  return {
+    pushDeck: data => dispatch(pushDeck(data)),
+  }
 }
 
 export default connect(null, mapDispatchToProps)(NewDeck)

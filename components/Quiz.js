@@ -1,44 +1,49 @@
-import React, {Component} from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Platform } from 'react-native'
+import React, { Component } from 'react'
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Platform,
+} from 'react-native'
 import { connect } from 'react-redux'
-import {primary, complimentary, muted, warning, light} from '../utils/colors'
+import { primary, complimentary, muted, warning, light } from '../utils/colors'
 import { setLocalNotification, clearLocalNotification } from '../utils/helpers'
 import GestureRecognizer from 'react-native-swipe-gestures'
 import { Ionicons } from '@expo/vector-icons'
 import { NavigationActions } from 'react-navigation'
 import DeckCard from './DeckCard'
 
-
 class Quiz extends Component {
-  static navigationOptions = ({navigation}) => {
-    const {state} = navigation;
+  static navigationOptions = ({ navigation }) => {
+    const { state } = navigation
     return {
       title: state.routeName,
-      headerStyle:{
+      headerStyle: {
         backgroundColor: primary,
       },
     }
   }
 
   state = {
-      showQuestion: true,
-      question: 0,
-      correct: 0,
-      incorrect: 0,
-      finish: false,
-    };
+    showQuestion: true,
+    question: 0,
+    correct: 0,
+    incorrect: 0,
+    finish: false,
+  }
 
-  componentDidMount(){
+  componentDidMount() {
     clearLocalNotification().then(setLocalNotification())
   }
 
   onSwipe() {
     const showQuestion = this.state.showQuestion ? false : true
-    this.setState({showQuestion})
+    this.setState({ showQuestion })
   }
 
   onCorrect() {
-    if(this.state.question >= this.props.questions.length -1){
+    if (this.state.question >= this.props.questions.length - 1) {
       this.setState({
         finish: true,
       })
@@ -51,7 +56,7 @@ class Quiz extends Component {
   }
 
   onIncorrect() {
-    if(this.state.question >= this.props.questions.length -1){
+    if (this.state.question >= this.props.questions.length - 1) {
       this.setState({
         finish: true,
       })
@@ -75,57 +80,62 @@ class Quiz extends Component {
 
   exitDeck() {
     this.onRestart()
-    this.props.navigation.dispatch(NavigationActions.reset({
+    this.props.navigation.dispatch(
+      NavigationActions.reset({
         index: 0,
-        actions: [
-          NavigationActions.navigate({ routeName: 'Home'})
-        ]
-    }))
+        actions: [NavigationActions.navigate({ routeName: 'Home' })],
+      })
+    )
   }
 
-
   render() {
-    const {question, correct, showQuestion, finish} = this.state
-    const {questions} = this.props
+    const { question, correct, showQuestion, finish } = this.state
+    const { questions } = this.props
 
     // if finish is true show calc score
-    if(finish){
-      return(
+    if (finish) {
+      return (
         <View style={styles.container}>
           <Text style={styles.header}>Congratulation!</Text>
           <Text style={styles.subHeader}>You finished it with</Text>
-          <Text style={styles.score}>{Math.round(correct / question * 100)}%</Text>
+          <Text style={styles.score}>
+            {Math.round(correct / question * 100)}%
+          </Text>
           <Text style={styles.subHeader}>of the questions correct</Text>
 
           <TouchableOpacity
             onPress={() => this.onRestart()}
             style={styles.btn}
-            activeOpacity={0.8}>
-              <Text style={styles.btnText}>Play this deck again</Text>
+            activeOpacity={0.8}
+          >
+            <Text style={styles.btnText}>Play this deck again</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => this.exitDeck()}
             style={styles.btn}
-            activeOpacity={0.8}>
-              <Text style={styles.btnText}>Try something else</Text>
+            activeOpacity={0.8}
+          >
+            <Text style={styles.btnText}>Try something else</Text>
           </TouchableOpacity>
         </View>
       )
-    }
-    else{
+    } else {
       return (
         <View style={styles.container}>
           <GestureRecognizer
             onSwipe={() => this.onSwipe()}
             style={styles.gestureBox}
           >
-
             <View style={styles.card}>
               <View style={styles.cardHeader}>
-                { showQuestion ? (<Text style={styles.cardSubTitle}>Question</Text>)
-                : (<Text style={styles.cardSubTitle}>Answer</Text>)
-                }
-                <Text style={styles.numOfQuestions}>{question + 1}/{questions.length}</Text>
+                {showQuestion ? (
+                  <Text style={styles.cardSubTitle}>Question</Text>
+                ) : (
+                  <Text style={styles.cardSubTitle}>Answer</Text>
+                )}
+                <Text style={styles.numOfQuestions}>
+                  {question + 1}/{questions.length}
+                </Text>
               </View>
               <View style={styles.cardContent}>
                 <DeckCard
@@ -134,23 +144,27 @@ class Quiz extends Component {
                 />
               </View>
             </View>
-            </GestureRecognizer>
+          </GestureRecognizer>
 
-            { /* Checks if
+          {/* Checks if
                 question is beeing displayed
                 inorder to choose gestureInstructions
               */
-              showQuestion ? (
-                <Text style={styles.guestureInstructions}>
-                  <Ionicons  name='ios-arrow-round-back' size={18}> Swipe to reveal the correct answer
-                  </Ionicons>
-                </Text>
-              ) : (
-                <Text style={styles.guestureInstructions}>
-                  <Ionicons name='ios-checkmark' size={18}> Did you get it right?</Ionicons>
-                </Text>
-              )
-            }
+          showQuestion ? (
+            <Text style={styles.guestureInstructions}>
+              <Ionicons name="ios-arrow-round-back" size={18}>
+                {' '}
+                Swipe to reveal the correct answer
+              </Ionicons>
+            </Text>
+          ) : (
+            <Text style={styles.guestureInstructions}>
+              <Ionicons name="ios-checkmark" size={18}>
+                {' '}
+                Did you get it right?
+              </Ionicons>
+            </Text>
+          )}
           <View style={styles.btnBox}>
             <View style={styles.btn}>
               <TouchableOpacity
@@ -162,7 +176,12 @@ class Quiz extends Component {
                 </View>
               </TouchableOpacity>
             </View>
-            <View style={[styles.btn, {backgroundColor: warning, borderColor: warning,}]}>
+            <View
+              style={[
+                styles.btn,
+                { backgroundColor: warning, borderColor: warning },
+              ]}
+            >
               <TouchableOpacity
                 onPress={() => this.onIncorrect()}
                 activeOpacity={0.8}
@@ -174,7 +193,7 @@ class Quiz extends Component {
             </View>
           </View>
         </View>
-      );
+      )
     }
   }
 }
@@ -188,7 +207,7 @@ const styles = StyleSheet.create({
   },
   quizFinished: {
     color: complimentary,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   header: {
     fontSize: 36,
@@ -233,7 +252,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.75,
     shadowRadius: 1,
     shadowColor: muted,
-    shadowOffset: { height: 2, width: 1},
+    shadowOffset: { height: 2, width: 1 },
     backgroundColor: light,
   },
   btnBox: {
@@ -244,7 +263,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     marginTop: 20,
-    borderRadius:8,
+    borderRadius: 8,
     borderWidth: 2,
     borderColor: complimentary,
     backgroundColor: complimentary,
@@ -266,16 +285,15 @@ const styles = StyleSheet.create({
   },
 })
 
-function mapStateToProps(state, ownProps){
+function mapStateToProps(state, ownProps) {
   const deckId = ownProps.navigation.state.params.id
-  if(deckId && state[deckId]){
-    return{
+  if (deckId && state[deckId]) {
+    return {
       id: deckId,
       title: state[deckId].title,
       questions: state[deckId].questions,
     }
   }
 }
-
 
 export default connect(mapStateToProps, null)(Quiz)

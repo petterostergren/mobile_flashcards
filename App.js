@@ -1,5 +1,12 @@
-import React, { Component } from 'react';
-import { Text, View, StyleSheet, Platform, StatusBar, Image } from 'react-native';
+import React, { Component } from 'react'
+import {
+  Text,
+  View,
+  StyleSheet,
+  Platform,
+  StatusBar,
+  Image,
+} from 'react-native'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
@@ -12,44 +19,49 @@ import DeckQuestion from './components/DeckQuestion'
 import Quiz from './components/Quiz'
 import NewCard from './components/NewCard'
 import { primary, complimentary, muted } from './utils/colors'
-import {setLocalNotification} from './utils/helpers'
+import { setLocalNotification } from './utils/helpers'
 export const homeIcon = require('./icons/deck.png')
-import {Ionicons} from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 
-function FlashCardsStatusBar ({backgroundColor, ...props}) {
-
- return (
-   <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
-     <StatusBar translucent backgroundColor={backgroundColor} {...props} />
-   </View>
- )
+function FlashCardsStatusBar({ backgroundColor, ...props }) {
+  return (
+    <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+    </View>
+  )
 }
 
-const Tabs = TabNavigator({
- Home: {
-   screen: Home,
-   navigationOptions: {
-     tabBarLabel: 'Decks',
-     tabBarIcon: ({ tintColor }) => <Image source={homeIcon} tintColor={tintColor}/>
-   },
- },
- AddEntry: {
-   screen: NewDeck,
-   navigationOptions: {
-     tabBarLabel: 'New Deck',
-     tabBarIcon: ({ tintColor }) => <Ionicons name='ios-add' size={35} color={tintColor}/>
-   },
- },
-}, {
-  tabBarOptions: {
-		inactiveTintColor: muted,
-    activeTintColor: complimentary,
-    style: {
-      backgroundColor: primary,
-
-    }
+const Tabs = TabNavigator(
+  {
+    Home: {
+      screen: Home,
+      navigationOptions: {
+        tabBarLabel: 'Decks',
+        tabBarIcon: ({ tintColor }) => (
+          <Image source={homeIcon} tintColor={tintColor} />
+        ),
+      },
+    },
+    AddEntry: {
+      screen: NewDeck,
+      navigationOptions: {
+        tabBarLabel: 'New Deck',
+        tabBarIcon: ({ tintColor }) => (
+          <Ionicons name="ios-add" size={35} color={tintColor} />
+        ),
+      },
+    },
   },
-})
+  {
+    tabBarOptions: {
+      inactiveTintColor: muted,
+      activeTintColor: complimentary,
+      style: {
+        backgroundColor: primary,
+      },
+    },
+  }
+)
 
 const Stack = StackNavigator({
   Home: {
@@ -62,33 +74,35 @@ const Stack = StackNavigator({
     screen: Quiz,
     navigationOptions: {
       headerTintColor: complimentary,
-    }
+    },
   },
   NewCard: {
     screen: NewCard,
     navigationOptions: {
       headerTintColor: complimentary,
-    }
-  }
+    },
+  },
 })
 
 export default class App extends Component {
-  componentDidMount(){
+  componentDidMount() {
     setLocalNotification()
   }
 
-   render() {
-     return (
-       <Provider store={createStore(reducer)}>
-         <View style={{flex: 1}}>
-           <FlashCardsStatusBar backgroundColor={complimentary} barStyle="light-content" />
-           <Stack/>
-         </View>
-       </Provider>
-     );
-   }
+  render() {
+    return (
+      <Provider store={createStore(reducer)}>
+        <View style={{ flex: 1 }}>
+          <FlashCardsStatusBar
+            backgroundColor={complimentary}
+            barStyle="light-content"
+          />
+          <Stack />
+        </View>
+      </Provider>
+    )
+  }
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -101,4 +115,4 @@ const styles = StyleSheet.create({
     width: 26,
     height: 26,
   },
-});
+})
