@@ -29,7 +29,6 @@ class Home extends Component {
 
   render(){
     const { decks } = this.props
-    //alert(JSON.stringify(Object.keys(decks).map(deck => decks[deck])))
     if(Object.keys(decks).length > 0) {
       return(
         <View style={styles.container}>
@@ -94,7 +93,6 @@ const styles = StyleSheet.create({
   deckBtn: {
     marginTop: 5,
     padding: 5,
-    marginBottom: 55,
   },
   errorMessage: {
     paddingTop: 10,
