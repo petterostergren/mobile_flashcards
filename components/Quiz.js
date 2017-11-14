@@ -9,7 +9,7 @@ import { NavigationActions } from 'react-navigation'
 import DeckCard from './DeckCard'
 
 
-class Quiz extends Component{
+class Quiz extends Component {
   static navigationOptions = ({navigation}) => {
     const {state} = navigation;
     return {
