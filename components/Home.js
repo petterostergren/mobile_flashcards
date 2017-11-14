@@ -28,58 +28,46 @@ class Home extends Component {
   }
 
   render(){
-    //   console.log(decks)
-    //   if(Object.keys(decks).length > 0) {
-    //     return (
-    //         <View style={styles.container}>
-    //           <View style={styles.content}>
-    //             <Text style={styles.header}>Select a Deck</Text>
-    //             {Object.keys(decks).map((deck) => {
-    //               const deckId = (deck)
-    //               const deckTitle = (decks[deck].title)
-    //               return (
-    //                   <TouchableOpacity
-    //                     onPress={() => this.openDeck(deckId, deckTitle)}
-    //                     activeOpacity={0.8}
-    //                     key={deck}
-    //                     style={styles.deckBtn}
-    //                   >
-    //                      <Deck
-    //                        title={decks[deck].title}
-    //                        id={decks[deck].id}
-    //                        questions={decks[deck].questions}
-    //                      />
-    //                   </TouchableOpacity>
-    //               )
-    //             })}
-    //           </View>
-    //         </View>
-    //     )
-    //   }
-    //   else {
-    //     return (
-    //       <View style={styles.container}>
-    //         <Text style={styles.errorMessage}>
-    //           No Decks could be found.
-    //         </Text>
-    //         <Text style={styles.errorMessageSub}>
-    //           Start building a new deck!
-    //         </Text>
-    //       </View>
-    //     )
-    //   }
-    // }
-
     const { decks } = this.props
-    return(
-      <View>
-        <FlatList
-              data={Object.values(decks).map(deck => deck)}
-              keyExtractor={(item) => item.title}
-              renderItem={({item}) => (<Text>{JSON.stringify(item)}</Text>)}
-        />
-      </View>
-    )
+    //alert(JSON.stringify(Object.keys(decks).map(deck => decks[deck])))
+    if(Object.keys(decks).length > 0) {
+      return(
+        <View style={styles.container}>
+          <View style={styles.content}>
+            <Text style={styles.header}>Select a Deck</Text>
+            <FlatList
+                  data={Object.keys(decks).map(deck => decks[deck])}
+                  keyExtractor={(item) => item.id}
+                  renderItem={({item}) => (
+                    <TouchableOpacity
+                      onPress={() => this.openDeck(item.id, item.title)}
+                      activeOpacity={0.8}
+                      key={item.id}
+                      style={styles.deckBtn}
+                    >
+                      <Deck
+                       title={item.title}
+                       id={item.id}
+                       questions={item.questions}
+                     />
+                   </TouchableOpacity>
+                  )}
+            />
+          </View>
+        </View>
+      )
+    } else {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.errorMessage}>
+            No Decks could be found.
+          </Text>
+          <Text style={styles.errorMessageSub}>
+            Start building a new deck!
+          </Text>
+        </View>
+      )
+    }
   }
 }
 
@@ -125,7 +113,6 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state){
-  console.log('map home', state)
   return {
     decks: state
   }

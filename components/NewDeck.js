@@ -37,7 +37,8 @@ class NewDeck extends Component {
       const deckId = uuidv4()
       let newDeck = {
         title: this.state.title,
-        questions: []
+        questions: [],
+        id: deckId
       }
 
       api.pushDeck({id: deckId, deck: newDeck})
