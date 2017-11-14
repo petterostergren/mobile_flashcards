@@ -56,7 +56,7 @@ yarn install or npm install
 This program have been tested on
 
 * iPhone 6S Plus
-* iPhone 8 Plus (Simulater)
+* iPhone 8 Plus (Simulator)
 
 ## License
 
