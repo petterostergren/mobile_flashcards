@@ -48,14 +48,19 @@ class NewCard extends Component{
           answer: '',
           warning: '',
         }))
-        .then(() => navigation.dispatch(NavigationActions.navigate({
-          routeName: 'DeckQuestion',
-          params: {
-            id: id,
-            title: title
-          }
-        })))
-
+        .then(() => navigation.dispatch(NavigationActions.reset({
+            index: 1,
+            actions: [
+              NavigationActions.navigate({ routeName: 'Home'}),
+              NavigationActions.navigate({
+                routeName: 'DeckQuestion',
+                params: {
+                  id: id,
+                  title: title
+                }
+              })
+            ]
+          })))
     }
   }
 

@@ -47,6 +47,7 @@ class Home extends Component {
                        <Deck
                          title={decks[deck].title}
                          id={decks[deck].id}
+                         questions={decks[deck].questions}
                        />
                     </TouchableOpacity>
                 )

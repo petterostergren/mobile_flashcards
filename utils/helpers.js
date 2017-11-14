@@ -1,6 +1,12 @@
 import { Notifications, Permissions } from 'expo'
 import {AsyncStorage} from 'react-native'
 
+export function numberOfCards(questions) {
+  const numOfCards = questions.length
+  const uiNumOfCards = numOfCards === 1 ? numOfCards + ' Card' : numOfCards + ' Cards'
+  return uiNumOfCards
+}
+
 const NOTIFICATION_KEY = 'UdacityFlashcards:LocalNotification'
 
 export function clearLocalNotification () {

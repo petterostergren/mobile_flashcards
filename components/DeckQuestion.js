@@ -6,6 +6,7 @@ import { deleteDeck } from '../actions'
 import { removeDeck } from '../utils/api'
 import {primary, complimentary, muted, light} from '../utils/colors'
 import { NavigationActions } from 'react-navigation'
+import { numberOfCards } from '../utils/helpers'
 
 function trashIcon ({params}) {
   if (Platform.OS === 'ios') {
@@ -110,18 +111,21 @@ class DeckQuestion extends Component{
     }
 
   render() {
+    const {title, id, questions} = this.props
+    const numOfCards = numberOfCards(questions)
     if(this.props.id !== null && this.props.questions.length !== 0) {
       return (
         <View style={styles.container}>
           <View style={styles.mainContent}>
             <View style={styles.deck}>
-              <Text style={styles.title}>{this.props.title}</Text>
+              <Text style={styles.title}>{title}</Text>
+              <Text style={styles.numOfCards}>{numOfCards}</Text>
             </View>
           </View>
           <View style={styles.btnBox}>
             <View style={styles.btn}>
               <TouchableOpacity
-                onPress={() => this.startQuiz(this.props.id)}
+                onPress={() => this.startQuiz(id)}
                 activeOpacity={0.8}
               >
                 <View>
@@ -131,7 +135,7 @@ class DeckQuestion extends Component{
             </View>
             <View style={styles.btn}>
               <TouchableOpacity
-                onPress={() => this.newCard(this.props.id)}
+                onPress={() => this.newCard(id)}
                 activeOpacity={0.8}
               >
                 <View>
@@ -158,7 +162,7 @@ class DeckQuestion extends Component{
             <View style={styles.btnBox}>
               <View style={styles.btn}>
                 <TouchableOpacity
-                  onPress={() => this.newCard(this.props.id)}
+                  onPress={() => this.newCard(id)}
                   activeOpacity={0.8}
                 >
                   <View>
@@ -211,6 +215,11 @@ const styles = StyleSheet.create({
     fontSize: 36,
     paddingLeft: 10,
     color: complimentary,
+  },
+  numOfCards: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: muted,
   },
   deck: {
     justifyContent: 'center',
