@@ -2,10 +2,12 @@ import React, {Component} from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Platform } from 'react-native'
 import { connect } from 'react-redux'
 import {primary, complimentary, muted, warning, light} from '../utils/colors'
+import { setLocalNotification, clearLocalNotification } from '../utils/helpers'
 import GestureRecognizer from 'react-native-swipe-gestures'
 import { Ionicons } from '@expo/vector-icons'
 import { NavigationActions } from 'react-navigation'
 import DeckCard from './DeckCard'
+
 
 class Quiz extends Component{
   static navigationOptions = ({navigation}) => {
@@ -26,7 +28,9 @@ class Quiz extends Component{
       finish: false,
     };
 
-
+  componentDidMount(){
+    clearLocalNotification().then(setLocalNotification())
+  }
 
   onSwipe() {
     const showQuestion = this.state.showQuestion ? false : true

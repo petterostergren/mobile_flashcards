@@ -12,6 +12,7 @@ import DeckQuestion from './components/DeckQuestion'
 import Quiz from './components/Quiz'
 import NewCard from './components/NewCard'
 import { primary, complimentary } from './utils/colors'
+import {setLocalNotification} from './utils/helpers'
 
 function FlashCardsStatusBar ({backgroundColor, ...props}) {
  return (
@@ -66,16 +67,20 @@ const Stack = StackNavigator({
 })
 
 export default class App extends Component {
- render() {
-   return (
-     <Provider store={createStore(reducer)}>
-       <View style={{flex: 1}}>
-         <FlashCardsStatusBar backgroundColor={complimentary} barStyle="light-content" />
-         <Stack/>
-       </View>
-     </Provider>
-   );
- }
+  componentDidMount(){
+    setLocalNotification()
+  }
+
+   render() {
+     return (
+       <Provider store={createStore(reducer)}>
+         <View style={{flex: 1}}>
+           <FlashCardsStatusBar backgroundColor={complimentary} barStyle="light-content" />
+           <Stack/>
+         </View>
+       </Provider>
+     );
+   }
 }
 
 
