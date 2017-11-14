@@ -41,12 +41,24 @@ class NewDeck extends Component {
       api
         .pushDeck({ id: deckId, deck: newDeck })
         .then(() => this.props.pushDeck({ deckId, newDeck }))
-        .then(() => this.setState({ title: '', warning: '' }))
         .then(() =>
           this.props.navigation.dispatch(
-            NavigationActions.navigate({ routeName: 'Home' })
+            NavigationActions.reset({
+              index: 1,
+              actions: [
+                NavigationActions.navigate({ routeName: 'Home' }),
+                NavigationActions.navigate({
+                  routeName: 'DeckQuestion',
+                  params: {
+                    id: deckId,
+                    title: this.state.title,
+                  },
+                }),
+              ],
+            })
           )
         )
+        .then(() => this.setState({ title: '', warning: '' }))
     }
   }
 
@@ -62,6 +74,7 @@ class NewDeck extends Component {
             style={styles.input}
             onChangeText={title => this.setState({ title })}
             value={title}
+            returnKeyType="done"
           />
           <Text style={styles.warning}>{warning}</Text>
           <TouchableOpacity
