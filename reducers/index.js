@@ -1,4 +1,5 @@
 import { PUSH_ALL_DECKS, PUSH_DECK, DELETE_DECK, PUSH_CARD } from '../actions'
+import _ from 'lodash'
 
 export default function cardsReducer(state = {}, action) {
   switch (action.type) {
@@ -23,12 +24,11 @@ export default function cardsReducer(state = {}, action) {
           action.payload.card,
         ],
       },
-    };
+    }
 
 
     case DELETE_DECK:
-      const newState = state
-      delete state[action.id]
+      const newState = _.omit(state, [action.id])
       return newState
 
     default:

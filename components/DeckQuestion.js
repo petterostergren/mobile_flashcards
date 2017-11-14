@@ -73,15 +73,13 @@ class DeckQuestion extends Component{
   }
 
   deleteDeck = () => {
-    const {id} = this.props
-    let executeRemoval = false
     if (Platform.OS === 'ios') {
       AlertIOS.alert(
         'Remove Deck',
         'Are you sure you want to delete this deck?',
         [
           {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-          {text: 'Yes', onPress: () =>  executeRemoval = true},
+          {text: 'Yes', onPress: this.executeRemoval },
         ],
       )
     } else {
@@ -90,14 +88,15 @@ class DeckQuestion extends Component{
         'Are you sure you want to delete this deck?',
         [
           {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-          {text: 'Yes', onPress: () => console.log('Yes Pressed')},
+          {text: 'Yes', onPress: this.executeRemoval },
         ],
         { cancelable: false }
       )
     }
+  }
 
-
-    {executeRemoval &&
+    executeRemoval = () => {
+      const {id} = this.props
       removeDeck(id)
       .then(() =>  this.props.deleteDeck(id))
       .then(() =>  this.props.navigation.dispatch(NavigationActions.reset({
@@ -106,8 +105,6 @@ class DeckQuestion extends Component{
             NavigationActions.navigate({ routeName: 'Home'})
           ]
         })))
-      }
-
     }
 
   render() {
@@ -266,8 +263,11 @@ function mapStateToProps(state, ownProps){
     }
   }
   else{
+    // Gives default values if the statement above !== true
     return {
       id: null,
+      title: 'Loading..',
+      questions: [],
     }
   }
 }
