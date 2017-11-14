@@ -69,15 +69,14 @@ class Home extends Component {
     //     )
     //   }
     // }
-    
+
     const { decks } = this.props
-    alert(JSON.stringify(Object.values(decks).map(deck => deck)))
     return(
       <View>
         <FlatList
               data={Object.values(decks).map(deck => deck)}
               keyExtractor={(item) => item.title}
-              renderItem={(item) => <Text>{item.title}</Text>}
+              renderItem={({item}) => (<Text>{JSON.stringify(item)}</Text>)}
         />
       </View>
     )
