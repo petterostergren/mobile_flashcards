@@ -7,6 +7,7 @@ import {
   Platform,
   AlertIOS,
   Alert,
+  Animated
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons'
@@ -53,11 +54,21 @@ class DeckQuestion extends Component {
     }
   }
 
+  state = {
+    opacity: new Animated.Value(0)
+  }
+
   componentDidMount() {
     // deleteFunction is sent in as a navigation param
     // inorder to use it from our navigationBar
     const { setParams } = this.props.navigation
+    const { opacity } = this.state
     setParams({ deleteDeck: this.deleteDeck })
+
+    Animated.timing(
+      opacity,
+      {toValue: 1, duration: 800}
+    ).start()
   }
 
   startQuiz(id, title) {
@@ -129,17 +140,18 @@ class DeckQuestion extends Component {
 
   render() {
     const { title, id, questions } = this.props
+    const { opacity } = this.state
     const numOfCards = numberOfCards(questions)
     if (this.props.id !== null && this.props.questions.length !== 0) {
       return (
         <View style={styles.container}>
-          <View style={styles.mainContent}>
+        <Animated.View style={[styles.mainContent, { opacity }]}>
             <View style={styles.deck}>
               <Text style={styles.title}>{title}</Text>
               <Text style={styles.numOfCards}>{numOfCards}</Text>
             </View>
-          </View>
-          <View style={styles.btnBox}>
+          </Animated.View>
+          <Animated.View style={[styles.btnBox, { opacity }]}>
             <View style={styles.btn}>
               <TouchableOpacity
                 onPress={() => this.startQuiz(id)}
@@ -160,13 +172,13 @@ class DeckQuestion extends Component {
                 </View>
               </TouchableOpacity>
             </View>
-          </View>
+          </Animated.View>
         </View>
       )
     } else {
       return (
         <View style={styles.container}>
-          <View style={styles.errorBox}>
+          <Animated.View style={[styles.errorBox, { opacity }]}>
             <View style={styles.deck}>
               <Text style={styles.errorMessage}>
                 We couldn't find any cards for this deck
@@ -175,8 +187,8 @@ class DeckQuestion extends Component {
                 Go ahead and an add a few cards!
               </Text>
             </View>
-          </View>
-          <View style={styles.btnBox}>
+          </Animated.View>
+          <Animated.View style={[styles.btnBox, { opacity }]}>
             <View style={styles.btn}>
               <TouchableOpacity
                 onPress={() => this.newCard(id)}
@@ -187,7 +199,7 @@ class DeckQuestion extends Component {
                 </View>
               </TouchableOpacity>
             </View>
-          </View>
+          </Animated.View>
         </View>
       )
     }
