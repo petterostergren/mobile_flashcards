@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Platform, StatusBar } from 'react-native';
+import { Text, View, StyleSheet, Platform, StatusBar, Image } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
@@ -11,10 +11,13 @@ import NewDeck from './components/NewDeck'
 import DeckQuestion from './components/DeckQuestion'
 import Quiz from './components/Quiz'
 import NewCard from './components/NewCard'
-import { primary, complimentary } from './utils/colors'
+import { primary, complimentary, muted } from './utils/colors'
 import {setLocalNotification} from './utils/helpers'
+export const homeIcon = require('./icons/deck.png')
+import {Ionicons} from '@expo/vector-icons'
 
 function FlashCardsStatusBar ({backgroundColor, ...props}) {
+
  return (
    <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
@@ -27,16 +30,19 @@ const Tabs = TabNavigator({
    screen: Home,
    navigationOptions: {
      tabBarLabel: 'Decks',
+     tabBarIcon: ({ tintColor }) => <Image source={homeIcon} tintColor={tintColor}/>
    },
  },
  AddEntry: {
    screen: NewDeck,
    navigationOptions: {
      tabBarLabel: 'New Deck',
+     tabBarIcon: ({ tintColor }) => <Ionicons name='ios-add' size={35} color={tintColor}/>
    },
  },
 }, {
   tabBarOptions: {
+		inactiveTintColor: muted,
     activeTintColor: complimentary,
     style: {
       backgroundColor: primary,
@@ -90,5 +96,9 @@ const styles = StyleSheet.create({
     backgroundColor: primary,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  icon: {
+    width: 26,
+    height: 26,
   },
 });
