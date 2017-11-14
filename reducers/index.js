@@ -1,8 +1,6 @@
 import { PUSH_ALL_DECKS, PUSH_DECK, DELETE_DECK, PUSH_CARD } from '../actions'
 
 export default function cardsReducer(state = {}, action) {
-  console.log('reducers____State', state)
-  console.log('reducers____action', action)
   switch (action.type) {
     case PUSH_ALL_DECKS:
       return{

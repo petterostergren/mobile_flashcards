@@ -11,34 +11,48 @@ class NewCard extends Component{
   state = {
     question: '',
     answer: '',
-    warning: ' ',
+    warning: '',
   }
 
+  checkValidation() {
+    const {answer, question, fieldTouched} = this.state
+    if(answer.length === 50) {
+      this.setState({warning: "Answers can't be more the 50 characters"})
+    } else {
+        this.setState({warning: ''})
+    }
+  }
 
-  addCard(){
-
-    const {question, answer} = this.state
-    const {id} = this.props
-    if(question.length < 5) {
-      this.setState({warning: 'Question is too short.'})
-    } else if(answer.length < 1) {
-      this.setState({warning: 'Answer is too short.'})
+  addCard() {
+    const {warning, question, answer} = this.state
+    const {id, navigation, pushCard, title} = this.props
+    if(answer.length === 0 && question.length === 0) {
+      this.setState({warning: 'You need to fill out the form before submitting'})
+    } else if (answer.length === 0){
+      this.setState({warning: 'Make sure you entered an answer'})
+    } else if (question.length === 0){
+      this.setState({warning: 'Make sure you entered a question'})
+    } else if (answer.length === 50) {
+      this.setState({warning: "Answers can't be more the 50 characters"})
+    } else if (warning !== ''){
+      this.checkValidation()
     } else {
       let card = {
         question: question,
         answer: answer
       }
-      api.pushCard(this.props.id, card)
-        .then(() => this.props.pushCard({id: this.props.id, card: card}))
+      api.pushCard(id, card)
+        .then(() => pushCard({id: id, card: card}))
         .then(() => this.setState({
           question: '',
           answer: '',
-          warning: ' '
+          warning: '',
         }))
-        .then(() => this.props.navigation.dispatch(NavigationActions.navigate({
+        .then(() => navigation.dispatch(NavigationActions.navigate({
           routeName: 'DeckQuestion',
           params: {
-            id: this.props.id
+            id: id,
+            title: title
           }
         })))
 
@@ -54,11 +68,10 @@ class NewCard extends Component{
           autoFocus={true}
           placeholder='Question'
           returnKeyType='next'
+          onChange={() => this.checkValidation()}
           onSubmitEditing={(event) => this.refs.answer.focus()}
-          maxLength={75}
-          numberOfLines={3}
-          multiline={true}
-          textAlignVertical='top'
+          multiline={false}
+          textAlignVertical='center'
           style={styles.input}
           onChangeText={(question) => this.setState({question})}
           value={this.state.question}
@@ -69,8 +82,11 @@ class NewCard extends Component{
           ref='answer'
           placeholder='Answer'
           returnKeyType='done'
-          onSubmitEditing={(() => console.log("submit button pressed"))}
-          textAlignVertical='top'
+          multiline={true}
+          maxLength={50}
+          row={2}
+          onChange={() => this.checkValidation()}
+          textAlignVertical='center'
           style={styles.input}
           onChangeText={(answer) => this.setState({answer})}
           value={this.state.answer}
@@ -98,7 +114,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   input: {
-    height: 40,
+    height: 50,
     padding: 5,
     marginTop: 15,
     fontSize: 20,
@@ -134,8 +150,11 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state, ownProps){
   const id = ownProps.navigation.state.params.id
-  return {
-    id
+  if(id && state[id]){
+    return{
+      id,
+      title: state[id].title,
+    }
   }
 }
 

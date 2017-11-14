@@ -5,6 +5,7 @@ import {primary, complimentary, muted, warning, light} from '../utils/colors'
 import GestureRecognizer from 'react-native-swipe-gestures'
 import { Ionicons } from '@expo/vector-icons'
 import { NavigationActions } from 'react-navigation'
+import DeckCard from './DeckCard'
 
 class Quiz extends Component{
   static navigationOptions = ({navigation}) => {
@@ -41,6 +42,7 @@ class Quiz extends Component{
     this.setState({
       question: this.state.question + 1,
       correct: this.state.correct + 1,
+      showQuestion: true,
     })
   }
 
@@ -53,6 +55,7 @@ class Quiz extends Component{
     this.setState({
       question: this.state.question + 1,
       incorrect: this.state.correct + 1,
+      showQuestion: true,
     })
   }
 
@@ -114,8 +117,18 @@ class Quiz extends Component{
           >
 
             <View style={styles.card}>
-              <Text style={styles.numOfQuestions}>{question + 1}/{questions.length}</Text>
-              {/* TODO: Insert card here */}
+              <View style={styles.cardHeader}>
+                { showQuestion ? (<Text style={styles.cardSubTitle}>Question</Text>)
+                : (<Text style={styles.cardSubTitle}>Answer</Text>)
+                }
+                <Text style={styles.numOfQuestions}>{question + 1}/{questions.length}</Text>
+              </View>
+              <View style={styles.cardContent}>
+                <DeckCard
+                  question={this.props.questions[this.state.question]}
+                  showQuestion={this.state.showQuestion}
+                />
+              </View>
             </View>
             </GestureRecognizer>
 
@@ -189,10 +202,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: complimentary,
   },
+  cardHeader: {
+    flexDirection: 'row',
+    height: 10,
+    flex: 1,
+  },
   numOfQuestions: {
     textAlign: 'right',
-    color: muted,
+    width: '50%',
     padding: 5,
+    color: muted,
+  },
+  cardSubTitle: {
+    width: '50%',
+    padding: 5,
+    color: muted,
+  },
+  cardContent: {
+    flex: 5,
   },
   card: {
     height: '100%',
