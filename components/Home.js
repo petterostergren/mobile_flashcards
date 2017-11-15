@@ -45,18 +45,18 @@ class Home extends Component {
               data={Object.keys(decks).map(deck => decks[deck])}
               keyExtractor={item => item.id}
               renderItem={({ item }) => (
-                  <TouchableOpacity
-                    onPress={() => this.openDeck(item.id, item.title)}
-                    activeOpacity={0.8}
-                    key={item.id}
-                    style={styles.deckBtn}
-                  >
-                      <Deck
-                        title={item.title}
-                        id={item.id}
-                        questions={item.questions}
-                      />
-                  </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => this.openDeck(item.id, item.title)}
+                  activeOpacity={0.8}
+                  key={item.id}
+                  style={styles.deckBtn}
+                >
+                  <Deck
+                    title={item.title}
+                    id={item.id}
+                    questions={item.questions}
+                  />
+                </TouchableOpacity>
               )}
             />
           </View>
@@ -111,16 +111,6 @@ const styles = StyleSheet.create({
   },
 })
 
-function mapStateToProps(state) {
-  return {
-    decks: state,
-  }
-}
+const mapStateToProps = decks => ({ decks })
 
-function mapDispatchToProps(dispatch) {
-  return {
-    pushDecks: data => dispatch(pushDecks(data)),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(mapStateToProps, { pushDecks })(Home)

@@ -16,8 +16,7 @@ export function clearLocalNotification() {
   )
 }
 
-function createNotification() {
-  return {
+const createNotification = () => ({
     title: 'Flashcards',
     body: 'Remember that practising is the best way to learn',
     android: {
@@ -26,8 +25,7 @@ function createNotification() {
       sticky: false,
       vibrate: true,
     },
-  }
-}
+})
 
 export function setLocalNotification() {
   AsyncStorage.getItem(NOTIFICATION_KEY)

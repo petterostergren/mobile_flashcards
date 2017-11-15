@@ -7,7 +7,7 @@ import {
   Platform,
   AlertIOS,
   Alert,
-  Animated
+  Animated,
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons'
@@ -55,7 +55,7 @@ class DeckQuestion extends Component {
   }
 
   state = {
-    opacity: new Animated.Value(0)
+    opacity: new Animated.Value(0),
   }
 
   componentDidMount() {
@@ -65,10 +65,11 @@ class DeckQuestion extends Component {
     const { opacity } = this.state
     setParams({ deleteDeck: this.deleteDeck })
 
-    Animated.timing(
-      opacity,
-      {toValue: 1, duration: 800}
-    ).start()
+    Animated.timing(opacity, { toValue: 1, duration: 800 }).start()
+  }
+
+  componentWillUnmount() {
+    this.state.opacity.removeAllListeners()
   }
 
   startQuiz(id, title) {
@@ -145,7 +146,7 @@ class DeckQuestion extends Component {
     if (this.props.id !== null && this.props.questions.length !== 0) {
       return (
         <View style={styles.container}>
-        <Animated.View style={[styles.mainContent, { opacity }]}>
+          <Animated.View style={[styles.mainContent, { opacity }]}>
             <View style={styles.deck}>
               <Text style={styles.title}>{title}</Text>
               <Text style={styles.numOfCards}>{numOfCards}</Text>
@@ -302,10 +303,4 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    deleteDeck: data => dispatch(deleteDeck(data)),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DeckQuestion)
+export default connect(mapStateToProps, { deleteDeck })(DeckQuestion)

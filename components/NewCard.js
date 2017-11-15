@@ -174,10 +174,4 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    pushCard: data => dispatch(pushCard(data)),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(NewCard)
+export default connect(mapStateToProps, {pushCard})(NewCard)

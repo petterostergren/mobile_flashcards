@@ -137,10 +137,4 @@ const styles = StyleSheet.create({
   },
 })
 
-function mapDispatchToProps(dispatch) {
-  return {
-    pushDeck: data => dispatch(pushDeck(data)),
-  }
-}
-
-export default connect(null, mapDispatchToProps)(NewDeck)
+export default connect(null, { pushDeck })(NewDeck)

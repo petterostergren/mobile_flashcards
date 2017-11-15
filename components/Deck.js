@@ -1,23 +1,20 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { muted, primary, complimentary, light } from '../utils/colors'
 import { numberOfCards } from '../utils/helpers'
 
-export default class Deck extends Component {
-  render() {
-    const { id, title, questions } = this.props
-    const numOfCards = numberOfCards(questions)
-    return (
-      <View style={styles.container}>
-        <View style={styles.deck} key={id}>
-          <View style={styles.deckContent}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.numOfCards}>{numOfCards}</Text>
-          </View>
+const Deck = ({id, title, questions}) => {
+  const numOfCards = numberOfCards(questions)
+  return (
+    <View style={styles.container}>
+      <View style={styles.deck} key={id}>
+        <View style={styles.deckContent}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.numOfCards}>{numOfCards}</Text>
         </View>
       </View>
-    )
-  }
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -53,3 +50,6 @@ const styles = StyleSheet.create({
     color: muted,
   },
 })
+
+
+export default Deck
