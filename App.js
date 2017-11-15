@@ -1,27 +1,12 @@
 import React, { Component } from 'react'
-import {
-  Text,
-  View,
-  StyleSheet,
-  Platform,
-  StatusBar,
-  Image,
-} from 'react-native'
-import { TabNavigator, StackNavigator } from 'react-navigation'
+import { View, StyleSheet, Platform, StatusBar } from 'react-native'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import { Constants } from 'expo'
 import reducer from './reducers'
-import Home from './components/Home'
-import Deck from './components/Deck'
-import NewDeck from './components/NewDeck'
-import DeckQuestion from './components/DeckQuestion'
-import Quiz from './components/Quiz'
-import NewCard from './components/NewCard'
 import { primary, complimentary, muted } from './utils/colors'
 import { setLocalNotification } from './utils/helpers'
-export const homeIcon = require('./icons/deck.png')
-import { Ionicons } from '@expo/vector-icons'
+import Routes from './components/Routes'
 
 function FlashCardsStatusBar({ backgroundColor, ...props }) {
   return (
@@ -30,59 +15,6 @@ function FlashCardsStatusBar({ backgroundColor, ...props }) {
     </View>
   )
 }
-
-const Tabs = TabNavigator(
-  {
-    Home: {
-      screen: Home,
-      navigationOptions: {
-        tabBarLabel: 'Decks',
-        tabBarIcon: ({ tintColor }) => (
-          <Image source={homeIcon} tintColor={tintColor} />
-        ),
-      },
-    },
-    AddEntry: {
-      screen: NewDeck,
-      navigationOptions: {
-        tabBarLabel: 'New Deck',
-        tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-add" size={35} color={tintColor} />
-        ),
-      },
-    },
-  },
-  {
-    tabBarOptions: {
-      inactiveTintColor: muted,
-      activeTintColor: complimentary,
-      style: {
-        backgroundColor: primary,
-      },
-    },
-  }
-)
-
-const Stack = StackNavigator({
-  Home: {
-    screen: Tabs,
-  },
-  DeckQuestion: {
-    screen: DeckQuestion,
-  },
-  Quiz: {
-    screen: Quiz,
-    navigationOptions: {
-      headerTintColor: complimentary,
-    },
-  },
-  NewCard: {
-    screen: NewCard,
-    navigationOptions: {
-      headerTintColor: complimentary,
-    },
-  },
-})
 
 export default class App extends Component {
   componentDidMount() {
@@ -97,7 +29,7 @@ export default class App extends Component {
             backgroundColor={complimentary}
             barStyle="light-content"
           />
-          <Stack />
+          <Routes />
         </View>
       </Provider>
     )
