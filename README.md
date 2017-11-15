@@ -11,6 +11,8 @@ different needs, perhaps you would like to learn a bit of math, build a
 _Multiplication_ deck and add questions to it. Guess the answer and flip the
 card to see if you were right
 
+#### Live Demo: [petterostergren@expo.io](https://expo.io/@petterostergren/flashcards)
+
 ## Installation
 
 ```bash

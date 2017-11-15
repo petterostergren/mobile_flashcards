@@ -3,6 +3,7 @@
     "name": "Flashcards",
     "slug": "flashcards",
     "sdkVersion": "22.0.0",
-    "privacy": "public"
+    "privacy": "public",
+    "icon": "./icons/icon.png",
   }
 }
